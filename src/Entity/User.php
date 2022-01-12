@@ -19,7 +19,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     /**
-     *  @Assert\Length(min="10", minMessage="At least {{ limit }} characters in email")
+     *  @Assert\Email(message="Please enter a valid email address.")
      */
     private $email;
 
@@ -28,7 +28,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string')]
     /**
-     *  @Assert\Length(max="7", maxMessage="It is limited to {{ limit }} characters.")
+     *  @Assert\Length(min="3", minMessage="It is limited to {{ limit }} characters.", max="32", maxMessage="It is limited to {{ limit }} characters.")
      */
     private $password;
 

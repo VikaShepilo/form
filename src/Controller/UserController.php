@@ -3,13 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -23,21 +20,11 @@ class UserController extends AbstractController
     }
 
     #[Route('/user', name: 'user_create')]
-
     public function createUser(Request $request)
     {
         $user = new User();
-
-        $form = $this->createFormBuilder($user)
-            ->add('email', EmailType::class)
-            ->add('password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'first_options' => ['label' => 'Password'],
-                'second_options' => ['label' => 'Confirm Password']
-            ])
-            ->add('save', SubmitType::class, ['label' => 'Create a user'])
-            ->getForm();
-
+        
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
